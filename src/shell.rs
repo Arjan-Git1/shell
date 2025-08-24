@@ -1,31 +1,60 @@
 use std::env;
 use std::fs;
 use std::io;
+use std::string;
 
 pub struct Shell {
     pub command: String,
 }
 
 impl Shell {
+    
     pub fn state(&mut self) -> std::io::Result<()> {
-        let mut input = String::new();
-        io::stdin()
-            .read_line(&mut input)
-            .expect("Not a command. Enter a command.");
+        
+        loop {
+            
+            let mut input = String::new();
 
-        let a = input.trim().to_string();
+            io::stdin()
+                .read_line(&mut input)
+                .expect("Not a command. Enter a command.");
 
-        let shh = Shell { command: a };
-
-        match shh.command.trim() {
-            "ld" => self.ld(),
-            "ls" => self.ls(),
-            _ => {
-                println!("Enter valid command");
-                Ok(())
+            let split: Vec<&str> = input.split_whitespace().collect();
+            if split.is_empty() {
+                continue; // skip empty input
             }
+
+            let com = split[0];
+            let args = &split[1..];
+            let argu = split[1..].join(" ");
+            let a = input.trim().to_string();
+            let shh = Shell { command: a }; // not used?
+
+            match com.trim() {
+                "ld" => {
+                    self.ld();
+                    Ok(())
+                }
+                "ls" => {
+                    self.ls();
+                    Ok(())
+                }
+                "mkdir" => {
+                    self.mkdir(argu);
+                    Ok(())
+                }
+                _ => {
+                    println!("Enter valid command");
+                    Err(std::io::Error::new(
+                        std::io::ErrorKind::Other,
+                        "Invalid command",
+                    ))
+                }
+            }?; // <-- propagate error if any
         }
     }
+
+
 
     pub fn ld(&mut self) -> std::io::Result<()> {
         let path = env::current_dir()?;
@@ -51,4 +80,18 @@ impl Shell {
 
         Ok(())
     }
+    pub fn mkdir(&mut self, arg : String)-> io::Result<()>{
+           let folder_name = arg;
+           match fs::create_dir(folder_name) {
+               Ok(_)=>{
+
+               }
+               Err(e)=>{
+                println!("Error processing request");
+               }
+              
+           }
+            Ok(())
+    }
+
 }
