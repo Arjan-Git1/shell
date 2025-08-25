@@ -43,6 +43,10 @@ impl Shell {
                     self.mkdir(argu);
                     Ok(())
                 }
+                "rmdir"=>{
+                    self.rmdir(argu);
+                    Ok(())
+                }
                 _ => {
                     println!("Enter valid command");
                     Err(std::io::Error::new(
@@ -92,6 +96,19 @@ impl Shell {
               
            }
             Ok(())
+    }
+    pub fn rmdir(&mut self, ar:String) -> io::Result<()>{
+        let folder = ar;
+        match fs::remove_dir(folder) {
+                         Ok(_)=>{
+
+                         }
+                         Err(e)=>{
+                            println!("Error processing request");
+                         }
+
+        }
+        Ok(())
     }
 
 }
