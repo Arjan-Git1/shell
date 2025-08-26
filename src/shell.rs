@@ -47,6 +47,10 @@ impl Shell {
                     self.rmdir(argu);
                     Ok(())
                 }
+                "echo"=>{
+                    self.echo(argu);
+                    Ok(())
+                }
                 _ => {
                     println!("Enter valid command");
                     Err(std::io::Error::new(
@@ -109,6 +113,12 @@ impl Shell {
 
         }
         Ok(())
+    }
+    pub fn echo(&mut self, are:String)->io::Result<()>{
+             let text = are;
+             
+             println!("{}", text);
+             Ok(())
     }
 
 }
