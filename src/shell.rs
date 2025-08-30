@@ -2,7 +2,7 @@ use std::env;
 use std::fs;
 use std::io;
 use std::string;
-
+use std::path::Path;
 pub struct Shell {
     pub command: String,
 }
@@ -49,6 +49,10 @@ impl Shell {
                 }
                 "echo"=>{
                     self.echo(argu);
+                    Ok(())
+                }
+                "cd"=>{
+                    self.cd(argu);
                     Ok(())
                 }
                 _ => {
@@ -106,6 +110,7 @@ impl Shell {
         match fs::remove_dir(folder) {
                          Ok(_)=>{
 
+                             
                          }
                          Err(e)=>{
                             println!("Error processing request");
@@ -120,5 +125,19 @@ impl Shell {
              println!("{}", text);
              Ok(())
     }
+    pub fn cd(&mut self, path:String)->io::Result<()>{
+        let mut  directory = path;
+        match env::set_current_dir(&mut directory){
+            Ok(_)=>{
+            
+        }
+        Err(e)=>{
+            eprintln!("Error {}",e);
+        }
+        
+        }
+        Ok(())
+    }
+    
 
 }
