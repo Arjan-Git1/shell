@@ -1,9 +1,9 @@
 use std::env;
 use std::fs;
 use std::fs::File;
-use std::io;
 use std::string;
 use std::path::Path;
+use std::io::{self,Read};
 pub struct Shell {
     pub command: String,
 }
@@ -58,6 +58,10 @@ impl Shell {
                 }
                 "fcreate"=>{
                     self.fcreate(argu);
+                    Ok(())
+                }
+                "read"=>{
+                    self.read(argu);
                     Ok(())
                 }
                 _ => {
@@ -145,6 +149,14 @@ impl Shell {
   pub fn fcreate(&mut self, name:String)->io::Result<()>{
       let name = name;
       File::create_new(name);
+      Ok(())
+  }
+  pub fn read(&mut self, file:String)->io::Result<()>{
+      let file_name = file;
+      let mut files = File::open(file_name)?;
+      let mut buffer = String::new();
+      files.read_to_string(&mut buffer)?;
+      println!("{}", buffer);
       Ok(())
   }
 
