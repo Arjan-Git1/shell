@@ -1,5 +1,6 @@
 use std::env;
 use std::fs;
+use std::fs::File;
 use std::io;
 use std::string;
 use std::path::Path;
@@ -53,6 +54,10 @@ impl Shell {
                 }
                 "cd"=>{
                     self.cd(argu);
+                    Ok(())
+                }
+                "fcreate"=>{
+                    self.fcreate(argu);
                     Ok(())
                 }
                 _ => {
@@ -133,11 +138,15 @@ impl Shell {
         }
         Err(e)=>{
             eprintln!("Error {}",e);
-        }
-        
-        }
-        Ok(())
-    }
-    
+        }   
+       }
+      Ok(())
+   }
+  pub fn fcreate(&mut self, name:String)->io::Result<()>{
+      let name = name;
+      File::create_new(name);
+      Ok(())
+  }
 
-}
+
+    }

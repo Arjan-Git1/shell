@@ -5,4 +5,6 @@ mod shell;
 
 fn main() {
     Shell::state(&mut Shell {  command: String::new()});
-}
+    
+    
+ }
