@@ -1,0 +1,22 @@
+---This is the official Sheller Documentation---
+
+List of commands:
+1. ls-Lists the name of all files in your current folder
+2. ld-prints the name of the current directory
+3. mkdir - Makes new folder
+4. rmdir - Removes Existing folder
+5. fcreate - creates new file, regardless of the file extension put in.
+6. read- Reads a file's content
+7. echo- repeats a text that the user said
+
+
+
+
+
+
+
+
+
+##This is still under heavy development##
+
+
